@@ -40,7 +40,7 @@ export const App: React.FC = () => {
 
   // 3. Summarised Inflation state
   const [currentCPI, setCurrentCPI] = useState<number>(315.5);
-  const [selectedCurrencyForSummary, setSelectedCurrencyForSummary] = useState<string>('PLN');
+ 
 
   // 4. Compounding Inflation Simulator state
   const [year1Rate, setYear1Rate] = useState<number>(3.0);
@@ -117,13 +117,7 @@ export const App: React.FC = () => {
     ? convertCurrency(convertAmount || 0, convertFrom, convertTo, exchangeRates)
     : null;
 
-  // Summarised CPI Inflation since 2001
-  const cumulativeCPIInflation = ((currentCPI - BASE_CPI_2001_01) / BASE_CPI_2001_01) * 100;
-  // Express purchasing power loss for a unit of selected currency
-  const currencyRateToUSD = exchangeRates[selectedCurrencyForSummary] ? (1 / exchangeRates[selectedCurrencyForSummary]) : 1;
-  const unitInUSD = 100 * currencyRateToUSD;
-  const summaryInflationLoss = calculateInflationLoss(unitInUSD, currentCPI, BASE_CPI_2001_01);
-  const unitLostInCurrency = (summaryInflationLoss.valueLostInUSD / currencyRateToUSD);
+ 
 
   return (
     <div className="app-container">
@@ -146,7 +140,7 @@ export const App: React.FC = () => {
       {/* Hero Header */}
       <header className="app-header">
         <h1 className="app-title">MILLENNIAL DOLLAR</h1>
-        <p className="app-subtitle">⚡ Vaporwave Meets Wall Street Purchasing Power Desk ⚡</p>
+        <p className="app-subtitle">⚡ Check how much worth your money was in 2001y. ⚡</p>
 
         {/* Prominent Powered By Badge */}
         <a
@@ -277,32 +271,7 @@ export const App: React.FC = () => {
             Summarised Inflation & Compounding
           </h2>
 
-          <div style={{ marginBottom: '1.2rem' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.5rem' }}>
-              <span className="input-label">Select Currency for Summary:</span>
-              <select
-                className="cyber-select"
-                aria-label="Select Currency for Summary"
-                style={{ width: 'auto', padding: '4px 10px' }}
-                value={selectedCurrencyForSummary}
-                onChange={(e) => setSelectedCurrencyForSummary(e.target.value)}
-              >
-                {COMMON_CURRENCIES.map(c => (
-                  <option key={c} value={c}>{c}</option>
-                ))}
-              </select>
-            </div>
-
-            <div className="stat-box" style={{ background: 'rgba(255, 0, 127, 0.08)', border: '1px solid var(--neon-pink)' }}>
-              <div className="stat-label">Cumulative Inflation Since 2001 ({selectedCurrencyForSummary})</div>
-              <div className="stat-value highlight-pink" style={{ fontSize: '1.8rem' }}>
-                +{cumulativeCPIInflation.toFixed(1)}%
-              </div>
-              <p style={{ fontSize: '0.85rem', color: '#ddd', marginTop: '6px' }}>
-                100 {selectedCurrencyForSummary} today has lost <strong>{unitLostInCurrency.toFixed(2)} {selectedCurrencyForSummary}</strong> ({summaryInflationLoss.purchasingPowerLossPercent.toFixed(1)}%) of real purchasing power relative to Jan 1, 2001.
-              </p>
-            </div>
-          </div>
+         
 
           {/* Interactive Compounding Inflation Section */}
           <div className="compounding-demo">
@@ -401,7 +370,7 @@ export const App: React.FC = () => {
             Wall Street Currency Converter Desk
           </h2>
           <p style={{ color: 'var(--text-muted)', marginBottom: '1.2rem', fontSize: '0.95rem' }}>
-            Instant multi-currency exchange conversion using <code>convertCurrency()</code> from <code>millennial-dollar</code>.
+            Instant multi-currency exchange conversion using millennial-dollar API.
           </p>
 
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '0.8rem', alignItems: 'flex-end' }}>
